@@ -1,4 +1,4 @@
-<script>
+
     // Declare 'cart' only once
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -71,4 +71,4 @@
         updateCartUI();
         fetchProducts();
     });
-</script>
+

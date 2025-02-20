@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxe Market | Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>/* Reset and base styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+        color: #1e293b;
+        line-height: 1.5;
+    }
+    
+    /* Navbar */
+    .navbar {
+        background-color: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+    
+    .nav-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #0f172a;
+        text-decoration: none;
+    }
+    
+    .nav-right {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+    
+    .icon-btn {
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        cursor: pointer;
+        position: relative;
+        color: #64748b;
+        transition: color 0.2s;
+        text-decoration: none;
+    }
+    
+    .icon-btn:hover {
+        color: #0f172a;
+    }
+    
+    .cart-count {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #ef4444;
+        color: white;
+        font-size: 0.75rem;
+        padding: 0.125rem 0.375rem;
+        border-radius: 9999px;
+    }
+    
+    /* Hero section */
+    .hero {
+        margin-top: 4rem;
+        padding: 4rem 1rem;
+        text-align: center;
+        background: linear-gradient(to right, #1e293b, #334155);
+        color: white;
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+    
+    .hero p {
+        font-size: 1.125rem;
+        color: #cbd5e1;
+    }
+    
+    /* Search bar */
+    .search-bar {
+        max-width: 600px;
+        margin: 2rem auto;
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .search-bar input {
+        flex-grow: 1;
+        padding: 0.75rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.375rem;
+        font-family: inherit;
+    }
+    
+    .search-bar button {
+        padding: 0.75rem 1.5rem;
+        background-color: #0f172a;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    .search-bar button:hover {
+        background-color: #1e293b;
+    }
+    
+    /* Products grid */
+    .products {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+    }
+    
+    .product {
+        background: white;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .product:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    
+    .product-image-container {
+        position: relative;
+        padding-top: 100%; /* 1:1 Aspect Ratio */
+        overflow: hidden;
+    }
+    
+    .product img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .product-details {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    
+    .product h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #0f172a;
+    }
+    
+    .product p {
+        color: #64748b;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
+        flex-grow: 1;
+    }
+    
+    .product button {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #0f172a;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    .product button:hover {
+        background-color: #1e293b;
+    }
+    
+    /* Cart section */
+    .cart-section {
+        max-width: 800px;
+        margin: 6rem auto 2rem;
+        padding: 0 1rem;
+    }
+    
+    .cart-item {
+        background: white;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .quantity-btn {
+        padding: 0.25rem 0.5rem;
+        background-color: #e2e8f0;
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    
+    .remove-btn {
+        padding: 0.5rem 1rem;
+        background-color: #ef4444;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    .remove-btn:hover {
+        background-color: #dc2626;
+    }
+    
+    /* Delivery form */
+    .delivery-form {
+        max-width: 500px;
+        margin: 6rem auto 2rem;
+        padding: 2rem;
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .delivery-form h2 {
+        margin-bottom: 1.5rem;
+        color: #0f172a;
+    }
+    
+    .delivery-form input {
+        width: 100%;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.375rem;
+        font-family: inherit;
+    }
+    
+    .delivery-form button {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #0f172a;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    .delivery-form button:hover {
+        background-color: #1e293b;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .hero h1 {
+            font-size: 2rem;
+        }
+    
+        .products {
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        }
+    }</style>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="index.html" class="logo"> E books </a>
+            <div class="nav-right">
+                <a href="cart.html" class="icon-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <h1>Discover Premium Products</h1>
+            <p>Curated selection of luxury items for the discerning shopper</p>
+        </section>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search products...">
+            <button onclick="searchProducts()">Search</button>
+        </div>
+
+        <section class="products" id="products-container">
+            <!-- Products will be dynamically loaded here -->
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+    <script>let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let allProducts = [];
+        
+        // Fetch and display products
+        async function fetchProducts() {
+            try {
+                const response = await fetch("https://ecommerce-mq4y.onrender.com/products");
+                const data = await response.json();
+        
+                if (data.success) {
+                    allProducts = data.products;
+                    displayProducts(allProducts);
+                } else {
+                    console.error("Error fetching products:", data.error);
+                }
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        }
+        
+        function displayProducts(products) {
+            const productsContainer = document.getElementById("products-container");
+            if (!productsContainer) return;
+        
+            productsContainer.innerHTML = "";
+        
+            if (products.length === 0) {
+                productsContainer.innerHTML = "<p>No products available.</p>";
+                return;
+            }
+        
+            products.forEach(product => {
+                const productDiv = document.createElement("div");
+                productDiv.className = "product";
+                productDiv.innerHTML = `
+                    <div class="product-image-container">
+                        <img src="${product.imageUrl}" alt="${product.name}">
+                    </div>
+                    <div class="product-details">
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <p>Price: ₹${product.price.toLocaleString()}</p>
+                        <button onclick="addToCart('${product.id}', '${product.name}', ${product.price})">Add to Cart</button>
+                    </div>
+                `;
+                productsContainer.appendChild(productDiv);
+            });
+        }
+        
+        // Search products
+        function searchProducts() {
+            const searchInput = document.getElementById("searchInput");
+            if (!searchInput) return;
+        
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredProducts = allProducts.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) || 
+                product.description.toLowerCase().includes(searchTerm)
+            );
+            displayProducts(filteredProducts);
+        }
+        
+        // Add product to cart
+        function addToCart(productId, name, price) {
+            const existingItem = cart.find(item => item.productId === productId);
+        
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ productId, name, price, quantity: 1 });
+            }
+        
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+        }
+        
+        // Remove product from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.productId !== productId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+        }
+        
+        // Update product quantity in cart
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.productId === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartUI();
+                }
+            }
+        }
+        
+        // Update cart UI
+        function updateCartUI() {
+            const cartContainer = document.getElementById("cart-container");
+            const cartCount = document.getElementById("cartCount");
+            
+            if (cartCount) {
+                // Update cart count
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalItems;
+            }
+        
+            if (cartContainer) {
+                // Update cart items
+                if (cart.length === 0) {
+                    cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+                    return;
+                }
+        
+                cartContainer.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <span>${item.name} (₹${item.price.toLocaleString()})</span>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="updateQuantity('${item.productId}', -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity('${item.productId}', 1)">+</button>
+                        </div>
+                        <span>Total: ₹${(item.price * item.quantity).toLocaleString()}</span>
+                        <button class="remove-btn" onclick="removeFromCart('${item.productId}')">Remove</button>
+                    </div>
+                `).join('') + `
+                    <button onclick="window.location.href='delivery.html'" class="checkout-btn">Proceed to Checkout</button>
+                `;
+            }
+        }
+        
+        // Checkout and initiate Razorpay payment
+        async function checkout() {
+            const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        
+            if (totalAmount <= 0) {
+                alert("Your cart is empty. Please add products to proceed.");
+                return;
+            }
+        
+            // Collect delivery information
+            const deliveryInfo = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                phone: document.getElementById("phone").value,
+                address: document.getElementById("address").value,
+            };
+        
+            // Validate delivery information
+            if (!deliveryInfo.name || !deliveryInfo.email || !deliveryInfo.phone || !deliveryInfo.address) {
+                alert("Please fill in all delivery details.");
+                return;
+            }
+        
+            // Create Razorpay order via backend
+            try {
+                const response = await fetch("https://ecommerce-mq4y.onrender.com/create-order", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ amount: totalAmount }),
+                });
+        
+                const data = await response.json();
+                if (data.success) {
+                    const options = {
+                        key: "",
+                        amount: data.order.amount,
+                        currency: "INR",
+                        name: "Luxe Market",
+                        description: "Order Payment",
+                        order_id: data.order.id,
+                        handler: async function (response) {
+                            await fetch("https://ecommerce-mq4y.onrender.com/save-order", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    userId: "user123",
+                                    products: cart,
+                                    totalAmount,
+                                    paymentId: response.razorpay_payment_id,
+                                    deliveryInfo,
+                                }),
+                            });
+        
+                            alert("Payment successful! Your order has been placed.");
+                            cart = [];
+                            localStorage.setItem('cart', JSON.stringify(cart));
+                            updateCartUI();
+                            window.location.href = 'index.html';
+                        },
+                        prefill: {
+                            name: deliveryInfo.name,
+                            email: deliveryInfo.email,
+                            contact: deliveryInfo.phone,
+                        },
+                        theme: {
+                            color: "#0f172a",
+                        },
+                    };
+        
+                    const rzp = new Razorpay(options);
+                    rzp.open();
+                } else {
+                    alert(`Error creating order: ${data.error}`);
+                }
+            } catch (error) {
+                console.error("Error during checkout:", error);
+                alert("Checkout failed. Please try again.");
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartUI();
+            if (window.location.pathname.includes('index.html')) {
+                fetchProducts();
+            }
+        });
+        
+        // Load Razorpay script
+        const script = document.createElement('script');
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        document.body.appendChild(script);</script>
+</body>
+</html>

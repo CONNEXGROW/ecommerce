@@ -23,7 +23,6 @@
             </div>
         </div>
     </nav>
-
     <main>
         <div class="delivery-form">
             <h2>Delivery Information</h2>
@@ -35,7 +34,6 @@
         </div>
         <div id="cart-container"></div> <!-- Cart items will be displayed here -->
     </main>
-
     <script>
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -71,13 +69,6 @@
                 `;
                 cartContainer.appendChild(cartItemDiv);
             });
-
-            // Add a checkout button
-            const checkoutButton = document.createElement("button");
-            checkoutButton.textContent = "Proceed to Checkout";
-            checkoutButton.className = "checkout-btn";
-            checkoutButton.onclick = () => window.location.href = "delivery.html";
-            cartContainer.appendChild(checkoutButton);
         }
 
         // Function to update item quantity in the cart
@@ -113,45 +104,84 @@
         }
 
         // Function to handle checkout and open Razorpay payment gateway
-        function checkout() {
+        async function checkout() {
             const name = document.getElementById("name").value;
             const email = document.getElementById("email").value;
             const phone = document.getElementById("phone").value;
             const address = document.getElementById("address").value;
 
+            // Validate delivery information
             if (!name || !email || !phone || !address) {
                 alert("Please fill out all fields.");
                 return;
             }
 
             // Calculate total amount from the cart
-            const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0) * 100; // Convert to paise
+            const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-            // Razorpay options
-            const options = {
-                key: 'YOUR_RAZORPAY_KEY_ID', // Replace with your Razorpay Key ID
-                amount: totalAmount, // Amount in paise
-                currency: 'INR',
-                name: 'E books',
-                description: 'Payment for your order',
-                prefill: {
-                    name: name,
-                    email: email,
-                    contact: phone,
-                },
-                handler: function (response) {
-                    alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
-                    // Redirect to a confirmation page or process the order
-                    window.location.href = "confirmation.html";
-                },
-                theme: {
-                    color: '#3399cc',
-                },
-            };
+            if (totalAmount <= 0) {
+                alert("Your cart is empty. Please add products to proceed.");
+                return;
+            }
 
-            // Open Razorpay payment gateway
-            const rzp = new Razorpay(options);
-            rzp.open();
+            // Create an order on the server
+            try {
+                const response = await fetch("https://ecommerce-mq4y.onrender.com/create-order", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ amount: totalAmount }),
+                });
+
+                const data = await response.json();
+                if (!data.success) {
+                    alert(`Error creating order: ${data.error}`);
+                    return;
+                }
+
+                // Open Razorpay payment gateway
+                const options = {
+                    key: 'YOUR_RAZORPAY_KEY_ID', // Replace with your Razorpay Key ID
+                    amount: data.order.amount, // Amount in paise (already converted by the backend)
+                    currency: 'INR',
+                    name: 'E books',
+                    description: 'Payment for your order',
+                    order_id: data.order.id, // Use the order ID returned by the backend
+                    prefill: {
+                        name: name,
+                        email: email,
+                        contact: phone,
+                    },
+                    handler: async function (response) {
+                        // Save the order details after successful payment
+                        await fetch("https://ecommerce-mq4y.onrender.com/save-order", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                userId: "user123", // Replace with actual user ID
+                                products: cart,
+                                totalAmount: totalAmount,
+                                paymentId: response.razorpay_payment_id,
+                                deliveryInfo: { name, email, phone, address },
+                            }),
+                        });
+
+                        alert("Payment successful! Your order has been placed.");
+                        cart = [];
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        updateCartUI();
+                        window.location.href = "confirmation.html"; // Redirect to confirmation page
+                    },
+                    theme: {
+                        color: '#3399cc',
+                    },
+                };
+
+                const rzp = new Razorpay(options);
+                rzp.open();
+            } catch (error) {
+                console.error("Error during checkout:", error);
+                alert("Checkout failed. Please try again.");
+            }
         }
 
         // Initialize the cart page

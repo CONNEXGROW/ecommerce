@@ -30,6 +30,85 @@
         </div>
     </main>
 
-    <script src="script.js"></script>
+    <script>  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Function to display cart items
+        function displayCartItems() {
+            const cartContainer = document.getElementById("cart-container");
+            if (!cartContainer) return;
+
+            // Clear the cart container
+            cartContainer.innerHTML = "";
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+                return;
+            }
+
+            // Display each cart item
+            cart.forEach((item) => {
+                const cartItemDiv = document.createElement("div");
+                cartItemDiv.className = "cart-item";
+                cartItemDiv.innerHTML = `
+                    <div>
+                        <h3>${item.name}</h3>
+                        <p>Price: ₹${item.price.toLocaleString()}</p>
+                        <div class="quantity-controls">
+                            <button onclick="updateQuantity('${item.productId}', -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="updateQuantity('${item.productId}', 1)">+</button>
+                        </div>
+                        <p>Total: ₹${(item.price * item.quantity).toLocaleString()}</p>
+                        <button onclick="removeFromCart('${item.productId}')" class="remove-btn">Remove</button>
+                    </div>
+                `;
+                cartContainer.appendChild(cartItemDiv);
+            });
+
+            // Add a checkout button
+            const checkoutButton = document.createElement("button");
+            checkoutButton.textContent = "Proceed to Checkout";
+            checkoutButton.className = "checkout-btn";
+            checkoutButton.onclick = () => window.location.href = "delivery.html";
+            cartContainer.appendChild(checkoutButton);
+        }
+
+        // Function to update item quantity in the cart
+        function updateQuantity(productId, change) {
+            const item = cart.find((item) => item.productId === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartUI();
+                    displayCartItems();
+                }
+            }
+        }
+
+        // Function to remove an item from the cart
+        function removeFromCart(productId) {
+            cart = cart.filter((item) => item.productId !== productId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+            displayCartItems();
+        }
+
+        // Function to update the cart count in the navbar
+        function updateCartUI() {
+            const cartCount = document.getElementById("cartCount");
+            if (cartCount) {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalItems;
+            }
+        }
+
+        // Initialize the cart page
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartUI();
+            displayCartItems();
+        });</script>
 </body>
 </html>

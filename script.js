@@ -1,5 +1,5 @@
 
-    <script>
+  
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         let allProducts = [];
 
@@ -83,4 +83,4 @@
             updateCartUI();
             fetchProducts();
         });
-    </script>
+ 

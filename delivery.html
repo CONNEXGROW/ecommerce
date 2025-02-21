@@ -6,13 +6,313 @@
     <title>Luxe Market | Delivery Information</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+<Style>/* Reset and base styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+        color: #1e293b;
+        line-height: 1.5;
+    }
+    
+    /* Navbar */
+    .navbar {
+        background-color: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+    
+    .nav-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #0f172a;
+        text-decoration: none;
+    }
+    
+    .nav-right {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+    
+    .icon-btn {
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        cursor: pointer;
+        position: relative;
+        color: #64748b;
+        transition: color 0.2s;
+        text-decoration: none;
+    }
+    
+    .icon-btn:hover {
+        color: #0f172a;
+    }
+    
+    .cart-count {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #ef4444;
+        color: white;
+        font-size: 0.75rem;
+        padding: 0.125rem 0.375rem;
+        border-radius: 9999px;
+    }
+    
+    /* Hero section */
+    .hero {
+        margin-top: 4rem;
+        padding: 4rem 1rem;
+        text-align: center;
+        background: linear-gradient(to right, #1e293b, #334155);
+        color: white;
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+    
+    .hero p {
+        font-size: 1.125rem;
+        color: #cbd5e1;
+    }
+    
+    /* Search bar */
+    .search-bar {
+        max-width: 600px;
+        margin: 2rem auto;
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .search-bar input {
+        flex-grow: 1;
+        padding: 0.75rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.375rem;
+        font-family: inherit;
+    }
+    
+    .search-bar button {
+        padding: 0.75rem 1.5rem;
+        background-color: #0f172a;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    .search-bar button:hover {
+        background-color: #1e293b;
+    }
+    
+    /* Products grid */
+    .products {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+    }
+    
+    .product {
+        background: white;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .product:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    
+    .product-image-container {
+        position: relative;
+        padding-top: 100%; /* 1:1 Aspect Ratio */
+        overflow: hidden;
+    }
+    
+    .product img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .product-details {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    
+    .product h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #0f172a;
+    }
+    
+    .product p {
+        color: #64748b;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
+        flex-grow: 1;
+    }
+    
+    .product button {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #0f172a;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    .product button:hover {
+        background-color: #1e293b;
+    }
+    
+    /* Cart section */
+    .cart-section {
+        max-width: 800px;
+        margin: 6rem auto 2rem;
+        padding: 0 1rem;
+    }
+    
+    .cart-item {
+        background: white;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .quantity-btn {
+        padding: 0.25rem 0.5rem;
+        background-color: #e2e8f0;
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    
+    .remove-btn {
+        padding: 0.5rem 1rem;
+        background-color: #ef4444;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    .remove-btn:hover {
+        background-color: #dc2626;
+    }
+    
+    /* Delivery form */
+    .delivery-form {
+        max-width: 500px;
+        margin: 6rem auto 2rem;
+        padding: 2rem;
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .delivery-form h2 {
+        margin-bottom: 1.5rem;
+        color: #0f172a;
+    }
+    
+    .delivery-form input {
+        width: 100%;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.375rem;
+        font-family: inherit;
+    }
+    
+    .delivery-form button {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #0f172a;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    .delivery-form button:hover {
+        background-color: #1e293b;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .hero h1 {
+            font-size: 2rem;
+        }
+    
+        .products {
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        }
+    }</Style>
 <body>
     <nav class="navbar">
         <div class="nav-content">
-            <a href="index.html" class="logo"> E books</a>
+            <a href="index.html" class="logo">E books</a>
             <div class="nav-right">
                 <a href="cart.html" class="icon-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
+                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                    </svg>
                     <span class="cart-count" id="cartCount">0</span>
                 </a>
             </div>
@@ -28,9 +328,11 @@
             <input type="text" id="address" placeholder="Delivery Address" required>
             <button onclick="checkout()">Confirm Order</button>
         </div>
+        <div id="cart-container"></div> <!-- Cart items will be displayed here -->
     </main>
 
-    <script>  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
         // Function to display cart items
         function displayCartItems() {
@@ -105,10 +407,32 @@
             }
         }
 
+        // Function to handle checkout
+        function checkout() {
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const address = document.getElementById("address").value;
+
+            if (!name || !email || !phone || !address) {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            // Save delivery information (you can send this to a server or store it locally)
+            const deliveryInfo = { name, email, phone, address };
+            localStorage.setItem('deliveryInfo', JSON.stringify(deliveryInfo));
+
+            // Redirect to a confirmation page or process the order
+            alert("Order confirmed! Redirecting...");
+            window.location.href = "confirmation.html";
+        }
+
         // Initialize the cart page
         document.addEventListener('DOMContentLoaded', () => {
             updateCartUI();
             displayCartItems();
-        });</script>
+        });
+    </script>
 </body>
 </html>

@@ -437,7 +437,7 @@
     let cart = [];
     let allProducts = [];
 
-    function switchTab(tab) {
+    window.switchTab = function(tab) {
       document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
       document.getElementById(tab).classList.add('active');
       document.querySelectorAll('.tab-buttons button').forEach(button => button.classList.remove('active'));
@@ -492,7 +492,7 @@
       });
     }
 
-    function addToCart(productId, name, price) {
+    window.addToCart = function(productId, name, price) {
       const existingItem = cart.find(item => item.productId === productId);
       if (existingItem) {
         existingItem.quantity += 1;

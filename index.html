@@ -621,22 +621,28 @@
             contact: phone,
           },
           handler: async function (response) {
-            await fetch("https://ecommerce-mq4y.onrender.com/save-order", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                userId: user.uid,
-                products: cart,
-                totalAmount,
-                paymentId: response.razorpay_payment_id,
-                deliveryInfo: { name, email, phone, address },
-              }),
-            });
-            alert("Payment successful! Your order has been placed.");
-            cart = [];
-            saveUserCart(user.uid);
-            updateCartUI();
-            switchTab('home');
+            try {
+              console.log("Payment successful, saving order:", response);
+              await fetch("https://ecommerce-mq4y.onrender.com/save-order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  userId: user.uid,
+                  products: cart,
+                  totalAmount,
+                  paymentId: response.razorpay_payment_id,
+                  deliveryInfo: { name, email, phone, address },
+                }),
+              });
+              alert("Payment successful! Your order has been placed.");
+              cart = [];
+              saveUserCart(user.uid);
+              updateCartUI();
+              switchTab('home');
+            } catch (error) {
+              console.error("Error saving order:", error.message);
+              alert("Failed to save order. Please try again.");
+            }
           },
         };
 

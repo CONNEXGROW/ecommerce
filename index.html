@@ -278,7 +278,7 @@
     <button onclick="switchTab('home')" class="active">Home</button>
     <button onclick="switchTab('cart')">Cart</button>
     <button onclick="switchTab('delivery')">Delivery</button>
-    <button onclick="switchTab('profile')">Profile</button>
+    <button id="profileButton" onclick="switchTab('profile')">Profile</button>
   </div>
 
   <div id="home" class="tab-content active">
@@ -346,6 +346,7 @@
         displayUserProfile(user);
         fetchUserOrders(user.uid);
         fetchUserCart(user.uid);
+        document.getElementById('profileButton').disabled = false;
       } catch (error) {
         console.error("Error signing in with Google:", error.message);
         alert("Failed to sign in. Please try again.");
@@ -421,6 +422,7 @@
         displayUserProfile(user);
         fetchUserOrders(user.uid);
         fetchUserCart(user.uid);
+        document.getElementById('profileButton').disabled = false;
       } else {
         document.getElementById('userName').textContent = 'Name: ';
         document.getElementById('userEmail').textContent = 'Email: ';
@@ -428,6 +430,7 @@
         cart = [];
         updateCartUI();
         displayCartItems();
+        document.getElementById('profileButton').disabled = true;
       }
     });
 
@@ -648,6 +651,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       updateCartUI();
       fetchProducts();
+      document.getElementById('profileButton').disabled = true;
     });
 
     const script = document.createElement('script');

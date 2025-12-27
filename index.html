@@ -277,7 +277,7 @@
 
     async function fetchProducts() {
       try {
-        const response = await fetch("https://ecommerce-mq4y.onrender.com/products");
+        const response = await fetch("https://backend-kshv.onrender.com/products");
         const data = await response.json();
         if (data.success) {
           allProducts = data.products;
@@ -427,7 +427,7 @@
             contact: phone,
           },
           handler: async function (response) {
-            await fetch("https://ecommerce-mq4y.onrender.com/save-order", {
+            await fetch("https://backend-kshv.onrender.com/save-order", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
